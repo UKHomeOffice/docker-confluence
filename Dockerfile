@@ -7,13 +7,11 @@ ENV ARCH x64
 # Runtime options
 ENV DEBUG_MODE false
 ENV CATALINA_OUT /dev/stdout
-ENV CATALINA_OPTS ""
+ENV CATALINA_OPTS -Djava.net.preferIPv4Stack=true
 
-ENV APP_USER Confluence
-
-ENV CRON_TIME "0 */2 * * *"
-ENV CRON_USER ${APP_USER}
-ENV CRON_CMD "/bin/bash -c echo 1"
+ENV APP_USER confluence
+ENV APP_HOME /home/confluence
+ENV BACKUP_DIR /var/backups
 
 # I'm only gonna bother supporting mysql
 ENV DB_TYPE mysql
@@ -21,6 +19,12 @@ ENV DB_HOST 127.0.0.1
 ENV DB_NAME confluence
 ENV DB_USER confluence
 ENV DB_PASS ecneulfnoc
+
+ENV CRON_TIME "0 */2 * * *"
+ENV CRON_USER ${APP_USER}
+ENV CRON_CMD 'myqldump -u ${DB_USER:?} -p${DB_PASS:?} -h ${DB_HOST:?} ${DB_NAME:?} > ${APP_HOME:?}/${DB_NAME:?}.sql && \
+              tar zcvf ${BACKUP_DIR:?}/${DB_NAME:?}.tar.gz ${APP_HOME:?} && \
+              rm ${APP_HOME:?}/${DB_NAME:?}.sql'
 
 # Install supervsior & crond
 RUN yum update -y && \

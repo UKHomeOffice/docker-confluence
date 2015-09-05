@@ -2,7 +2,7 @@
 
 # Add our cron
 env > /env.txt
-echo "${CRON_TIME} ${CRON_USER} soruce /env.txt && ${CRON_CMD} > /dev/stdout 2>&1" >> /etc/crontab
+echo "${CRON_TIME} ${CRON_USER} source /env.txt && ${CRON_CMD} > /dev/stdout 2>&1" >> /etc/crontab
 
 # Startup whines that this folder hasn't been created
 mkdir -p /usr/local/Confluence/conf/Standalone/localhost

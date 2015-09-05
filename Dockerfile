@@ -22,29 +22,11 @@ ENV DB_NAME confluence
 ENV DB_USER confluence
 ENV DB_PASS ecneulfnoc
 
-# Setup defaults for backups
-ENV CRON_TIME "0 */2 * * *"
-ENV CRON_USER ${APP_USER}
-ENV CRON_CMD  'mysqldump -u ${DB_USER} -p${DB_PASS} -h ${DB_HOST} ${DB_NAME} > ${APP_DATA}/${DB_NAME}.sql && \
-              tar zcvf ${BACKUP_DIR}/${DB_NAME}-$(date +%s).tar.gz ${APP_DATA} && \
-              rm ${APP_DATA}/${DB_NAME}.sql && \
-              mv *.tar.gz ${SHARE_DIR}'
-RUN mkdir -p ${SHARE_DIR}
-
 # Install supervsior, crond & mysql client.
 RUN yum update -y && \
     yum install -y \
       mysql \
-      python-setuptools \
-      cronie-noanacron && \
-    yum -y clean all && \
-    easy_install supervisor
-
-# Add supervisor configs
-ADD supervisord/*.ini /etc/supervisord.d/
-RUN echo_supervisord_conf > /etc/supervisord.conf && \
-    echo '[include]' >> /etc/supervisord.conf && \
-    echo 'files = /etc/supervisord.d/*.ini' >> /etc/supervisord.conf
+    yum -y clean all
 
 # Unattended install; the -q does it. Default options.
 RUN curl -Ls "https://www.atlassian.com/software/confluence/downloads/binary/atlassian-confluence-${CONFLUENCE_VERSION}-${ARCH}.bin" -o confluence.bin

@@ -15,13 +15,6 @@ ENV APP_DATA /var/atlassian/application-data/confluence
 ENV BACKUP_DIR /var/backups
 ENV SHARE_DIR ${BACKUP_DIR}/share
 
-# Not useful for confluence; used by the cron only
-ENV DB_TYPE mysql
-ENV DB_HOST 127.0.0.1
-ENV DB_NAME confluence
-ENV DB_USER confluence
-ENV DB_PASS ecneulfnoc
-
 # Install supervsior, crond & mysql client.
 RUN yum update -y && \
     yum install -y \

@@ -11,6 +11,7 @@ ENV CATALINA_OUT /dev/stdout
 ENV CATALINA_OPTS -Djava.net.preferIPv4Stack=true
 
 ENV APP_USER confluence
+ENV APP_PATH /usr/local/Confluence
 ENV APP_DATA /var/atlassian/application-data/confluence
 ENV BACKUP_DIR /var/backups
 ENV SHARE_DIR ${BACKUP_DIR}/share

@@ -1,7 +1,5 @@
 #!/bin/bash -ex
 
-$APP_PATH=/usr/local/Confluence
-
 # Startup whines that this folder hasn't been created
 mkdir -p /usr/local/Confluence/conf/Standalone/localhost
 
